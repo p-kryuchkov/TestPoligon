@@ -1,34 +1,38 @@
 package entities;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+@Entity
 public class Car {
-    private int id;
-    private String engineType; // Наверное енам
+    @Column(name = "engine_type_id")
+    private long engineTypeId;
+    @Id
+    private long id;
     private String mark;
     private String model;
-    private double price;
-
-    public Car(int id, String engineType, String mark, String model, double price) {
-        this.id = id;
-        this.engineType = engineType;
-        this.mark = mark;
-        this.model = model;
-        this.price = price;
+    @Column(name = "person_id")
+    private Long personId;
+    @Column(columnDefinition = "numeric(12,2)")
+    private Float price;
+    public Car() {
     }
 
-    public int getId() {
+    public long getEngineTypeId() {
+        return engineTypeId;
+    }
+
+    public void setEngineTypeId(long engineTypeId) {
+        this.engineTypeId = engineTypeId;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public String getEngineType() {
-        return engineType;
-    }
-
-    public void setEngineType(String engineType) {
-        this.engineType = engineType;
     }
 
     public String getMark() {
@@ -47,11 +51,33 @@ public class Car {
         this.model = model;
     }
 
-    public double getPrice() {
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(long personId) {
+        this.personId = personId;
+    }
+
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "engineTypeId=" + engineTypeId +
+                ", id=" + id +
+                ", mark='" + mark + '\'' +
+                ", model='" + model + '\'' +
+                ", personId=" + personId +
+                ", price=" + price +
+                '}';
+    }
 }
+
+

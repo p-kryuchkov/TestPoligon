@@ -1,27 +1,33 @@
 package entities;
 
-public class Person {
-    /*
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
-    "id": 1,
-    "firstName": "Vasiliy",
-    "secondName": "Rubenstein",
-    "age": 42,
-    "sex": "MALE",
-    "money": 1000000.00
-     */
-    private int id;
+@Entity
+public class Person {
+    @Id
+    private long id;
+    @Column(name = "first_name")
     private String firstName;
+    @Column (name = "second_name")
     private String secondName;
     private int age;
-    private String sex;   // Наверное енам
-    private double money;
+    //ToDo Обернуть потом в м/ж
+    private boolean sex;
+    @Column(columnDefinition = "numeric(19,2)")
+    private Float money;
+    @Column(name = "house_id")
+    private Long houseId;
 
-    public int getId() {
+    public Person() {
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -49,28 +55,40 @@ public class Person {
         this.age = age;
     }
 
-    public String getSex() {
+    public boolean isSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(boolean sex) {
         this.sex = sex;
     }
 
-    public double getMoney() {
+    public Float getMoney() {
         return money;
     }
 
-    public void setMoney(double money) {
+    public void setMoney(Float money) {
         this.money = money;
     }
 
-    public Person(int id, String firstName, String secondName, int age, String sex, double money) {
-        this.id = id;
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.age = age;
-        this.sex = sex;
-        this.money = money;
+    public Long getHouseId() {
+        return houseId;
+    }
+
+    public void setHouseId(Long houseId) {
+        this.houseId = houseId;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", age=" + age +
+                ", sex=" + sex +
+                ", money=" + money +
+                ", houseId=" + houseId +
+                '}';
     }
 }

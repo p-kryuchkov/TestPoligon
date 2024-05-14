@@ -1,22 +1,41 @@
 package entities;
 
+import jakarta.persistence.Table;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+@Table(name = "engine_type")
 public class EngineType {
-    ;
-    private int id;
+    @Id
+    private long id;
     private String type_name;
 
-    public int getId() {
+    public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getType_name() {
         return type_name;
     }
 
-    EngineType(int id, String type_name) {
-        this.id = id;
+    public void setType_name(String type_name) {
         this.type_name = type_name;
     }
 
+    public EngineType() {
+    }
 
+    @Override
+    public String toString() {
+        return "EngineType{" +
+                "id=" + id +
+                ", type_name='" + type_name + '\'' +
+                '}';
+    }
 }

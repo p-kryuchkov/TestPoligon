@@ -1,0 +1,15 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <property name="connection.url">jdbc:postgresql://77.50.236.203:4832/pflb_trainingcenter</property> <!-- BD Mane -->
+        <property name="connection.driver_class">org.postgresql.Driver</property> <!-- DB Driver -->
+        <property name="connection.username">pflb-at-read</property> <!-- DB User -->
+        <property name="connection.password">PflbQaTraining2354</property> <!-- DB Password -->
+
+
+    </session-factory>
+</hibernate-configuration>
