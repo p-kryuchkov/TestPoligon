@@ -1,6 +1,7 @@
 package dao;
 
 import entities.Car;
+import entities.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -8,27 +9,27 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-public class CarDao extends DAO {
+public class PersonDAO extends DAO{
     Configuration configuration = new Configuration();
     @Override
-    public Car getByID(long id) {
-        configuration.addAnnotatedClass(Car.class);
+    public Person getByID(long id) {
+        configuration.addAnnotatedClass(Person.class);
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
         try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
              Session session = sessionFactory.openSession()) {
-            Car car = (Car) session.load(Car.class, id);
-            System.out.println(car.toString());
-            return car;
+            Person person = (Person) session.load(Person.class, id);
+            System.out.println(person.toString());
+            return person;
         }
     }
     @Override
-    public List<Car> getAll() {
-        configuration.addAnnotatedClass(Car.class);
+    public List<Person> getAll() {
+        configuration.addAnnotatedClass(Person.class);
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
         try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
              Session session = sessionFactory.openSession()) {
-            List<Car> cars = session.createQuery("from Car").list();
-            return cars;
+            List<Person> personList = session.createQuery("from Person").list();
+            return personList;
         }
     }
 }

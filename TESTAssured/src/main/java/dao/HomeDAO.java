@@ -1,6 +1,6 @@
 package dao;
 
-import entities.Car;
+import entities.Home;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -8,27 +8,29 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-public class CarDao extends DAO {
+public class HomeDAO extends DAO {
     Configuration configuration = new Configuration();
     @Override
-    public Car getByID(long id) {
-        configuration.addAnnotatedClass(Car.class);
+    public Home getByID(long id) {
+        configuration.addAnnotatedClass(Home.class);
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
         try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
              Session session = sessionFactory.openSession()) {
-            Car car = (Car) session.load(Car.class, id);
-            System.out.println(car.toString());
-            return car;
+            Home home = (Home) session.load(Home.class, id);
+            System.out.println(home.toString());
+            return home;
         }
     }
     @Override
-    public List<Car> getAll() {
-        configuration.addAnnotatedClass(Car.class);
+    public List<Home> getAll() {
+        configuration.addAnnotatedClass(Home.class);
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
         try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
              Session session = sessionFactory.openSession()) {
-            List<Car> cars = session.createQuery("from Car").list();
-            return cars;
+            List<Home> homes = session.createQuery("from Home").list();
+            return homes;
         }
     }
 }
+
+

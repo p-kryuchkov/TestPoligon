@@ -1,3 +1,6 @@
+import dao.CarDao;
+import dao.EngineTypeDAO;
+import dao.HomeDAO;
 import entities.*;
 import entities.Car;
 import entities.EngineType;
@@ -49,8 +52,17 @@ Car car = (Car) session.load(Car.class, 3);
             Person person = (Person) session.load(Person.class,2);
             System.out.println(person.toString());
 
+            HomeDAO result = new HomeDAO();
+            result.getByID(2);
 
-            }
+            Home resultcar = result.getByID(3);
+            System.out.println(resultcar.toString());
+
+            List listcar = result.getAll();
+            System.out.println(listcar.size());
+
+
+        }
         }
     }
 

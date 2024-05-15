@@ -1,9 +1,8 @@
 package entities;
 
-import jakarta.persistence.Table;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "engine_type")
