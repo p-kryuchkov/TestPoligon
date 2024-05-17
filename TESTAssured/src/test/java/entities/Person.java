@@ -3,18 +3,21 @@ package entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Person {
     @Id
-    private long id;
+    private Long id;
     @Column(name = "first_name")
     private String firstName;
     @Column (name = "second_name")
     private String secondName;
     private int age;
-    //ToDo Обернуть потом в м/ж
-    private boolean sex;
+    @Column(name = "sex")
+    private Boolean isMale;
+    @Transient
+    private String sex;
     @Column(columnDefinition = "numeric(19,2)")
     private Float money;
     @Column(name = "house_id")
@@ -23,11 +26,11 @@ public class Person {
     public Person() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,12 +58,12 @@ public class Person {
         this.age = age;
     }
 
-    public boolean isSex() {
-        return sex;
+    public Boolean isMale() {
+        return isMale;
     }
 
-    public void setSex(boolean sex) {
-        this.sex = sex;
+    public void setMale(Boolean male) {
+        this.isMale = male;
     }
 
     public Float getMoney() {
@@ -79,6 +82,31 @@ public class Person {
         this.houseId = houseId;
     }
 
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Person(String firstName, String secondName, int age, String sex, Float money) {
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.age = age;
+        this.sex = sex;
+        this.money = money;
+    }
+
+    public boolean equalsWithotId(Person person) {
+        if (firstName.equals(person.getFirstName()) &&
+                secondName.equals(person.getSecondName()) &&
+                age == person.getAge() &&
+                sex.equals(person.getSex()) &&
+                money.equals(person.getMoney())) return true;
+        else return false;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -86,7 +114,8 @@ public class Person {
                 ", firstName='" + firstName + '\'' +
                 ", secondName='" + secondName + '\'' +
                 ", age=" + age +
-                ", sex=" + sex +
+                ", isMale=" + isMale +
+                ", sex='" + sex + '\'' +
                 ", money=" + money +
                 ", houseId=" + houseId +
                 '}';

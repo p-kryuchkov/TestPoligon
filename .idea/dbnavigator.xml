@@ -17,7 +17,8 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="4ce75043-31eb-4229-ad64-d8f53a4c41d6">
-      <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[select * from person;]]></console>
+      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[select * from person where house_id = 3;]]></console>
+      <console name="Connection 1" type="STANDARD" schema="pflb_trainingcenter" session="Main"><![CDATA[select * from "public".person]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
