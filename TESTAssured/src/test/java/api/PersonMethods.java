@@ -23,11 +23,11 @@ public class PersonMethods {
         System.out.println(response.toString());
         return response;
     }
+
     public static Person createPerson(Person requestPerson){
         getSpecifications();
         Person response = given()
                 .log().all()
-             //   .header("Content-Type","application/json")
                 .header("Authorization", "Bearer " + getToken())
                 .body(requestPerson)
                 .post(person)
@@ -38,6 +38,7 @@ public class PersonMethods {
         System.out.println(response.toString());
         return response;
     }
+
     public static Person buyCar(long personId, long carId){
         getSpecifications();
         Person response = given()
@@ -51,5 +52,5 @@ public class PersonMethods {
         System.out.println(response.toString());
         return response;
     }
-    }
+}
 

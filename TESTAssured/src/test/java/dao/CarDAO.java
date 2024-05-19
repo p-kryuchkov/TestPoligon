@@ -25,6 +25,7 @@ public class CarDAO {
             return car;
         }
     }
+
     public static List<Car> getAll() {
         configuration.addAnnotatedClass(Car.class);
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());

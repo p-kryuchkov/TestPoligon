@@ -1,10 +1,8 @@
 package testsAPI;
 
-import api.CarMethods;
 import api.PersonMethods;
 import dao.CarDAO;
 import dao.PersonDAO;
-import entities.Car;
 import entities.Person;
 import org.hibernate.Hibernate;
 import org.junit.jupiter.api.DisplayName;
@@ -31,13 +29,13 @@ public class PersonTest {
     @DisplayName("Проверка покупки машины")
     public void testBuyCar(){
         Person requestPerson = PersonDAO.getByID(17);
-        Long carId = CarDAO.getCarIdWithoutPerson().getId();
-        if (carId.equals(null)) fail("Свободных машин в базе нет");
+        if ( CarDAO.getCarIdWithoutPerson().equals(null)) fail("Свободных машин в базе нет");
         else {
+            Long carId = CarDAO.getCarIdWithoutPerson().getId();
             Person responsePerson = PersonMethods.buyCar(requestPerson.getId(), carId);
-            assertTrue(responsePerson.getId().equals(requestPerson.getId()), "id покупателя в запросе и ответе не совпадает");
-            assertTrue(responsePerson.getMoney().equals(requestPerson.getMoney() - CarDAO.getByID(carId).getPrice()), "У покупателя некорректно списались деньги за покупку");
-            assertTrue(requestPerson.getId().equals(CarDAO.getByID(carId).getPerson()), "В БД некорректно присвоен ID владельца машины");
+            assertEquals(responsePerson.getId(), requestPerson.getId(), "id покупателя в запросе и ответе не совпадает");
+            assertEquals(responsePerson.getMoney(), requestPerson.getMoney() - CarDAO.getByID(carId).getPrice(), "У покупателя некорректно списались деньги за покупку");
+            assertEquals(requestPerson.getId(), CarDAO.getByID(carId).getPerson(), "В БД некорректно присвоен ID владельца машины");
         }
     }
 }

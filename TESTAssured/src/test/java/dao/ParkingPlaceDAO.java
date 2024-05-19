@@ -1,6 +1,5 @@
 package dao;
 
-import entities.Car;
 import entities.ParkingPlace;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

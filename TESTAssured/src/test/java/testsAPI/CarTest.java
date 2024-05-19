@@ -4,16 +4,10 @@ package testsAPI;
 import api.CarMethods;
 import dao.CarDAO;
 import entities.Car;
-import io.restassured.RestAssured;
 import org.hibernate.Hibernate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Properties;
-
-import static api.Login.getToken;
-import static api.Specifications.car;
-import static api.Specifications.getProperties;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

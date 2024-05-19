@@ -1,6 +1,5 @@
 package dao;
 
-import entities.Car;
 import entities.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,6 +7,8 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class PersonDAO {
     static Configuration configuration = new Configuration();
@@ -19,7 +20,6 @@ public class PersonDAO {
              Session session = sessionFactory.openSession()) {
             Person person = (Person) session.load(Person.class, id);
             if (person.isMale()) person.setSex("MALE");
-            System.out.println(person.toString());
             return person;
         }
     }
@@ -33,6 +33,7 @@ public class PersonDAO {
             return personList;
         }
     }
+
     public static List<Person> getByHouseId(Long houseId) {
         configuration.addAnnotatedClass(Person.class);
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
@@ -42,6 +43,7 @@ public class PersonDAO {
             return personList;
         }
     }
+
     public static Person getPersonIdWithoutHouse() {
         configuration.addAnnotatedClass(Person.class);
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings((configuration.getProperties()));
@@ -53,6 +55,7 @@ public class PersonDAO {
                 System.out.println(person.toString());
                 return person;
             } else {
+                fail("Свободных машин в базе нет");
                 return null;
             }
         }

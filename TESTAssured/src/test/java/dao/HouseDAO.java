@@ -19,7 +19,7 @@ public class HouseDAO {
         try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
              Session session = sessionFactory.openSession()) {
             House house = (House) session.load(House.class, id);
-            List <Person> lodgers = PersonDAO.getByHouseId(house.getId());
+            List<Person> lodgers = PersonDAO.getByHouseId(house.getId());
             house.setLodgers(lodgers);
             List <ParkingPlace> parkingPlaces = ParkingPlaceDAO.getByHouseId(house.getId());
             house.setParkingPlaces(parkingPlaces);
