@@ -48,17 +48,18 @@ public class HouseTest {
     public void testSettle() {
         House requestHouse = HouseDAO.getByID(7);
         Integer lodgersSizeBefore = requestHouse.getLodgers().size();
-        Person requestPerson = PersonDAO.getPersonIdWithoutHouse();
-        Long personId = requestPerson.getId();
-        if (personId.equals(null)) fail("Свободных жильцов нет");
-        else {
+        try {
+            Person requestPerson = PersonDAO.getPersonIdWithoutHouse();
+            Long personId = requestPerson.getId();
             House responseHouse = HouseMethods.settle(requestHouse.getId(), personId);
-            assertTrue(responseHouse.getId().equals(requestHouse.getId()), "id дома в запросе и ответе не совпадает");
-            assertTrue(responseHouse.getLodgers().size() == lodgersSizeBefore + 1, "количество жильцов после заселения некорректно");
+            assertEquals(responseHouse.getId(), requestHouse.getId(), "id дома в запросе и ответе не совпадает");
+            assertEquals(responseHouse.getLodgers().size(), lodgersSizeBefore + 1, "количество жильцов после заселения некорректно");
             List<Long> lodgersIds = new ArrayList<>();
             for (Person p : responseHouse.getLodgers()) lodgersIds.add(p.getId());
             assertTrue(lodgersIds.contains(requestPerson.getId()), "в списке жильцов нет жильца из запроса");
-            assertTrue(requestHouse.getId().equals(PersonDAO.getByID(personId).getHouseId()), "В БД некорректно привязан у юзера  id дома");
+            assertEquals(requestHouse.getId(), PersonDAO.getByID(personId).getHouseId(), "В БД некорректно привязан у юзера  id дома");
+        } catch (NullPointerException e) {
+            fail("Нет свободных юзеров для заселения");
         }
     }
 

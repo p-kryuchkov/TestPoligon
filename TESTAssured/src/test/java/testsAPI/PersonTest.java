@@ -19,7 +19,6 @@ public class PersonTest {
         Person responcePerson = PersonMethods.createPerson(requestPerson);
         assertTrue(requestPerson.equalsWithotId(responcePerson), "Отправленные и полученные данные не совпадают");
         Person daoPerson = (Person) Hibernate.unproxy(PersonDAO.getByID(responcePerson.getId()));
-      //  System.out.println(daoCar.getEngineType() + requestCar.toString() + responceCar.toString() + daoCar.toString());
         assertTrue(requestPerson.equalsWithotId(daoPerson), "Отправленные данные и данные в БД не совпадают");
         int sizeAfter = PersonDAO.getAll().size();
         assertEquals(sizeAfter, sizeBefore + 1, "Количество юзеров не изменилось");
@@ -28,14 +27,15 @@ public class PersonTest {
     @Test
     @DisplayName("Проверка покупки машины")
     public void testBuyCar(){
-        Person requestPerson = PersonDAO.getByID(17);
-        if ( CarDAO.getCarIdWithoutPerson().equals(null)) fail("Свободных машин в базе нет");
-        else {
+        try {
+            Person requestPerson = PersonDAO.getByID(17);
             Long carId = CarDAO.getCarIdWithoutPerson().getId();
             Person responsePerson = PersonMethods.buyCar(requestPerson.getId(), carId);
             assertEquals(responsePerson.getId(), requestPerson.getId(), "id покупателя в запросе и ответе не совпадает");
             assertEquals(responsePerson.getMoney(), requestPerson.getMoney() - CarDAO.getByID(carId).getPrice(), "У покупателя некорректно списались деньги за покупку");
             assertEquals(requestPerson.getId(), CarDAO.getByID(carId).getPerson(), "В БД некорректно присвоен ID владельца машины");
+        }catch (NullPointerException e){
+            fail("В базе нет свободных машин для покупки");
         }
     }
 }

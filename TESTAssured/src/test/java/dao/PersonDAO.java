@@ -55,7 +55,6 @@ public class PersonDAO {
                 System.out.println(person.toString());
                 return person;
             } else {
-                fail("Незаселенных людей в базе нет");
                 return null;
             }
         }
