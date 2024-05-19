@@ -39,7 +39,7 @@ public class HouseTest {
         int sizeAfter = HouseDAO.getAll().size();
         int ppSizeAfter = ParkingPlaceDAO.getAll().size();
         assertEquals(sizeAfter, sizeBefore + 1, "Количество домов не изменилось");
-        assertEquals(ppSizeAfter, ppSizeBefore + parkingPlaces.size());
+        assertEquals(ppSizeAfter, ppSizeBefore + parkingPlaces.size(),"Количество парковочных мест не изменилось");
         assertTrue(requestHouse.equalsWithoutId(HouseMethods.getHouseById(responceHouse.getId())),"При поиске по id находится другой дом");
     }
 

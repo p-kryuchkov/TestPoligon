@@ -9,6 +9,8 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class CarDAO {
     static Configuration configuration = new Configuration();
 
@@ -47,6 +49,7 @@ public class CarDAO {
                 System.out.println(car.toString());
                 return car;
             } else {
+                fail("Свободных машин в базе нет");
                 return null;
             }
         }
