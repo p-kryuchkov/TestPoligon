@@ -34,4 +34,21 @@ public class CarDAO {
             return cars;
         }
     }
+
+    public static Car getCarIdWithoutPerson() {
+        configuration.addAnnotatedClass(Car.class);
+        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings((configuration.getProperties()));
+        try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
+             Session session = sessionFactory.openSession()) {
+            List<Car> cars = session.createQuery("from Car where person is null").list();
+            if (!cars.isEmpty()) {
+                Car car = cars.get(0);
+                System.out.println(car.toString());
+                return car;
+            } else {
+                return null;
+            }
+        }
+
+    }
 }

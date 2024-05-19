@@ -16,7 +16,7 @@ public class Car {
     private String mark;
     private String model;
     @Column(name = "person_id")
-    private Long Person;
+    private Long person;
     @Column(columnDefinition = "numeric(12,2)")
     private Float price;
     public Car() {
@@ -70,11 +70,11 @@ public class Car {
     }
 
     public Long getPerson() {
-        return Person;
+        return person;
     }
 
     public void setPerson(Long person) {
-        Person = person;
+        this.person = person;
     }
 
     public Float getPrice() {
@@ -92,7 +92,7 @@ public class Car {
                 ", id=" + id +
                 ", mark='" + mark + '\'' +
                 ", model='" + model + '\'' +
-                ", Person=" + Person +
+                ", Person=" + person +
                 ", price=" + price +
                 '}';
     }

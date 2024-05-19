@@ -1,13 +1,12 @@
 package testsAPI;
 
-import api.CarMethods;
 import api.HouseMethods;
-import dao.CarDAO;
 import dao.HouseDAO;
 import dao.ParkingPlaceDAO;
-import entities.Car;
+import dao.PersonDAO;
 import entities.House;
 import entities.ParkingPlace;
+import entities.Person;
 import org.hibernate.Hibernate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,14 +14,13 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class HouseTest {
 
     @Test
     @DisplayName("Проверка создания дома и сопутствующих сущностей")
-    public void createHouse() {
+    public void testCreateHouse() {
         int sizeBefore = HouseDAO.getAll().size();
         int ppSizeBefore = ParkingPlaceDAO.getAll().size();
         List<ParkingPlace> parkingPlaces = new ArrayList<>();
@@ -44,4 +42,24 @@ public class HouseTest {
         assertEquals(ppSizeAfter, ppSizeBefore + parkingPlaces.size());
         assertTrue(requestHouse.equalsWithoutId(HouseMethods.getHouseById(responceHouse.getId())),"При поиске по id находится другой дом");
     }
+
+    @Test
+    @DisplayName("Проверка заселения в дом")
+    public void testSettle() {
+        House requestHouse = HouseDAO.getByID(7);
+        Integer lodgersSizeBefore = requestHouse.getLodgers().size();
+        Person requestPerson = PersonDAO.getPersonIdWithoutHouse();
+        Long personId = requestPerson.getId();
+        if (personId.equals(null)) fail("Свободных жильцов нет");
+        else {
+            House responseHouse = HouseMethods.settle(requestHouse.getId(), personId);
+            assertTrue(responseHouse.getId().equals(requestHouse.getId()), "id дома в запросе и ответе не совпадает");
+            assertTrue(responseHouse.getLodgers().size() == lodgersSizeBefore + 1, "количество жильцов после заселения некорректно");
+            List<Long> lodgersIds = new ArrayList<>();
+            for (Person p : responseHouse.getLodgers()) lodgersIds.add(p.getId());
+            assertTrue(lodgersIds.contains(requestPerson.getId()), "в списке жильцов нет жильца из запроса");
+            assertTrue(requestHouse.getId().equals(PersonDAO.getByID(personId).getHouseId()), "В БД некорректно привязан у юзера  id дома");
+        }
+    }
+
 }

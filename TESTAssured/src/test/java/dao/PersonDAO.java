@@ -42,4 +42,19 @@ public class PersonDAO {
             return personList;
         }
     }
+    public static Person getPersonIdWithoutHouse() {
+        configuration.addAnnotatedClass(Person.class);
+        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings((configuration.getProperties()));
+        try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
+             Session session = sessionFactory.openSession()) {
+            List<Person> persons = session.createQuery("from Person where houseId is null").list();
+            if (!persons.isEmpty()) {
+                Person person = persons.get(0);
+                System.out.println(person.toString());
+                return person;
+            } else {
+                return null;
+            }
+        }
+    }
 }

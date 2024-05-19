@@ -30,6 +30,9 @@
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="4ce75043-31eb-4229-ad64-d8f53a4c41d6" />
   </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="4ce75043-31eb-4229-ad64-d8f53a4c41d6" dataset="public.car" active-filter-id="" />
+  </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
   </component>

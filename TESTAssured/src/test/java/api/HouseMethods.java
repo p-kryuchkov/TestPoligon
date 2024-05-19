@@ -1,10 +1,10 @@
 package api;
 
-import entities.Car;
 import entities.House;
 
 import static api.Login.getToken;
-import static api.Specifications.*;
+import static api.Specifications.getSpecifications;
+import static api.Specifications.house;
 import static io.restassured.RestAssured.given;
 
 public class HouseMethods {
@@ -26,12 +26,25 @@ public class HouseMethods {
         getSpecifications();
         House response = given()
                 .log().all()
-                .header("Content-Type","application/json")
                 .header("Authorization", "Bearer " + getToken())
                 .body(requestHouse)
                 .post(house)
                 .then()
                 .statusCode(201)
+                .extract()
+                .body().as(House.class);
+        System.out.println(response.toString());
+        return response;
+    }
+
+    public static House settle(Long houseId, Long personId) {
+        getSpecifications();
+        House response = given()
+                .log().all()
+                .header("Authorization", "Bearer " + getToken())
+                .post(house + houseId + "/settle/" + personId)
+                .then()
+                .statusCode(200)
                 .extract()
                 .body().as(House.class);
         System.out.println(response.toString());
