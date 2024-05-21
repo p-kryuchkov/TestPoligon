@@ -1,16 +1,16 @@
 package entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
+import dao.EngineTypeDAO;
+import jakarta.persistence.*;
+import entities.EngineType;
+
+import java.util.Objects;
 
 @Entity
 public class Car {
-    @Transient
-    private String engineType;
-    @Column(name = "engine_type_id")
-    private Long engineTypeId;
+    @ManyToOne
+    @JoinColumn(name = "engine_type_id")
+    private EngineType engineType;
     @Id
     private Long id;
     private String mark;
@@ -22,28 +22,28 @@ public class Car {
     public Car() {
     }
 
-    public Car(String engineType, String mark, String model, Float price) {
+    public Car(EngineType engineType, String mark, String model, Float price) {
+
         this.engineType = engineType;
         this.mark = mark;
         this.model = model;
         this.price = price;
     }
+    public Car(String engineType, String mark, String model, Float price) {
+        this.engineType = EngineTypeDAO.getByName(engineType);
+        this.mark = mark;
+        this.model = model;
+        this.price = price;
+    }
 
-    public String getEngineType() {
+    public EngineType getEngineType() {
         return engineType;
     }
 
-    public void setEngineType(String engineType) {
+    public void setEngineType(EngineType engineType) {
         this.engineType = engineType;
     }
-
-    public Long getEngineTypeId() {
-        return engineTypeId;
-    }
-
-    public void setEngineTypeId(Long engineTypeId) {
-        this.engineTypeId = engineTypeId;
-    }
+    public void setEngineType(String engineType) {this.engineType = EngineTypeDAO.getByName(engineType);}
 
     public Long getId() {
         return id;
@@ -88,7 +88,6 @@ public class Car {
     public String toString() {
         return "Car{" +
                 "engineType='" + engineType + '\'' +
-                ", engineTypeId=" + engineTypeId +
                 ", id=" + id +
                 ", mark='" + mark + '\'' +
                 ", model='" + model + '\'' +
@@ -98,8 +97,21 @@ public class Car {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return id == car.id &&
+                Double.compare(car.price, price) == 0 &&
+                Objects.equals(car.engineType, engineType) &&
+                Objects.equals(mark, car.mark) &&
+                Objects.equals(model, car.model) &&
+                Objects.equals(person, car.person);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(engineType, id, mark, model, person, price);
     }
 
     public boolean equalsWithotId(Car car) {

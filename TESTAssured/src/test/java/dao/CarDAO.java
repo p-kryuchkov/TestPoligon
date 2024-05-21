@@ -20,10 +20,8 @@ public class CarDAO {
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
         try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
              Session session = sessionFactory.openSession()) {
-            Car car = (Car) session.load(Car.class, id);
-            EngineType engineType = (EngineType) session.load(EngineType.class, car.getEngineTypeId());
-            car.setEngineType(engineType.getType_name());
-            System.out.println(car.toString());
+            Car car = (Car) session.get(Car.class, id);
+          System.out.println(car.toString());
             return car;
         }
     }
