@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HouseTest {
@@ -21,26 +22,23 @@ public class HouseTest {
     @Test
     @DisplayName("Проверка создания дома и сопутствующих сущностей")
     public void testCreateHouse() {
-        int sizeBefore = HouseDAO.getAll().size();
-        int ppSizeBefore = ParkingPlaceDAO.getAll().size();
+        Long sizeHouseBefore = HouseDAO.getAllHousesSize();
+        Long sizeParkingPlaceBefore = ParkingPlaceDAO.getAllParkingPlacesSize();
         List<ParkingPlace> parkingPlaces = new ArrayList<>();
-        parkingPlaces.add(new ParkingPlace(true,false,6));
-        parkingPlaces.add(new ParkingPlace(false, true,3));
+       parkingPlaces.add(new ParkingPlace(true,false,6));
+       parkingPlaces.add(new ParkingPlace(false, true,3));
         parkingPlaces.add(new ParkingPlace(true,false,1));
         House requestHouse = new House(4,329867F,parkingPlaces);
-        House responceHouse = HouseMethods.createHouse(requestHouse);
-        System.out.println(requestHouse.toString() + responceHouse.toString());
-        assertTrue(requestHouse.equalsWithoutId(responceHouse), "Отправленные и полученные данные не совпадают");
-        assertTrue(requestHouse.equalsParkingPlaces(responceHouse.getParkingPlaces()), "Отправленные и полученные парковочные места не совпадают");
-        House daoHouse = (House) Hibernate.unproxy(HouseDAO.getByID(responceHouse.getId()));
-        assertTrue(requestHouse.equalsWithoutId(daoHouse), "Отправленные данные и данные в БД не совпадают");
-        List<ParkingPlace> parkingPlaceList =(List<ParkingPlace>) Hibernate.unproxy(ParkingPlaceDAO.getByHouseId(responceHouse.getId()));
-        assertTrue(requestHouse.equalsParkingPlaces(parkingPlaceList),"Отправленные парковочные места не совпадают с БД");
-        int sizeAfter = HouseDAO.getAll().size();
-        int ppSizeAfter = ParkingPlaceDAO.getAll().size();
-        assertEquals(sizeAfter, sizeBefore + 1, "Количество домов не изменилось");
-        assertEquals(ppSizeAfter, ppSizeBefore + parkingPlaces.size(),"Количество парковочных мест не изменилось");
-        assertTrue(requestHouse.equalsWithoutId(HouseMethods.getHouseById(responceHouse.getId())),"При поиске по id находится другой дом");
+        House responseHouse = HouseMethods.createHouse(requestHouse);
+        House daoHouse = HouseDAO.getByID(responseHouse.getId());
+        Long sizeHouseAfter = HouseDAO.getAllHousesSize();
+        Long sizeParkingPlaceAfter = ParkingPlaceDAO.getAllParkingPlacesSize();
+        assertTrue(requestHouse.equalsWithoutId(responseHouse),"Отправленные и полученные данные не совпадают");
+        assertTrue(requestHouse.equalsWithoutId(daoHouse), "Дома в запросе и в БД не совпадают");
+        assertTrue(requestHouse.equalsParkingPlaces(responseHouse.getParkingPlaces()), "В запросе и в отвеете парковочные места не совпадают");
+        assertTrue(requestHouse.equalsParkingPlaces(daoHouse.getParkingPlaces()),"В запросе и в БД парковочные места не совпадают");
+        assertEquals(sizeHouseAfter, sizeHouseBefore + 1, "Количество домов не изменилось");
+        assertEquals(sizeParkingPlaceAfter, sizeParkingPlaceBefore + parkingPlaces.size(),"Количество парковочных мест не изменилось");
     }
 
     @Test

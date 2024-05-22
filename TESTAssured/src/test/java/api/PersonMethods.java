@@ -20,6 +20,8 @@ public class PersonMethods {
                 .extract()
                 .body()
                 .as(Person.class);
+        if (response.getSex().equals("MALE")) response.setMale(true);
+        else response.setMale(false);
         System.out.println(response.toString());
         return response;
     }
@@ -36,6 +38,8 @@ public class PersonMethods {
                 .extract()
                 .body().as(Person.class);
         System.out.println(response.toString());
+        if (response.getSex().equals("MALE")) response.setMale(true);
+        else response.setMale(false);
         return response;
     }
 

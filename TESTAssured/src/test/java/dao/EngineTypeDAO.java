@@ -15,7 +15,6 @@ public static EngineType getByName(String name) {
     try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
          Session session = sessionFactory.openSession()) {
         EngineType engineType = (EngineType) session.createQuery("from EngineType where type_name = :param").setParameter("param", name).uniqueResult();
-        //   car.setEngineType(engineType.getType_name());
         System.out.println(engineType.toString());
         return engineType;
     }

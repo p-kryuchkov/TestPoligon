@@ -1,6 +1,8 @@
 package dao;
 
+import entities.House;
 import entities.ParkingPlace;
+import entities.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -39,6 +41,16 @@ public class ParkingPlaceDAO {
              Session session = sessionFactory.openSession()) {
             List<ParkingPlace> parkingPlaces = session.createQuery("from ParkingPlace where houseId = :param").setParameter("param", houseId).list();
             return parkingPlaces;
+        }
+    }
+    public static Long getAllParkingPlacesSize() {
+        configuration.addAnnotatedClass(ParkingPlace.class);
+        StandardServiceRegistryBuilder builder
+                = new StandardServiceRegistryBuilder().applySettings((configuration.getProperties()));
+        try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
+             Session session = sessionFactory.openSession()) {
+            Long size = session.createQuery("from ParkingPlace").getResultCount();
+            return size;
         }
     }
 }

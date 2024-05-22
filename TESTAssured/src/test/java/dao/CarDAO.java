@@ -2,6 +2,7 @@ package dao;
 
 import entities.Car;
 import entities.EngineType;
+import entities.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -17,6 +18,7 @@ public class CarDAO {
     public static Car getByID(long id) {
         configuration.addAnnotatedClass(Car.class);
         configuration.addAnnotatedClass(EngineType.class);
+        configuration.addAnnotatedClass(Person.class);
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
         try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
              Session session = sessionFactory.openSession()) {
@@ -51,6 +53,18 @@ public class CarDAO {
                 return null;
             }
         }
+    }
 
+    public static Long getAllCarsSize() {
+        configuration.addAnnotatedClass(Car.class);
+        configuration.addAnnotatedClass(EngineType.class);
+        configuration.addAnnotatedClass(Person.class);
+        StandardServiceRegistryBuilder builder
+                = new StandardServiceRegistryBuilder().applySettings((configuration.getProperties()));
+        try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
+             Session session = sessionFactory.openSession()) {
+            Long size = session.createQuery("from Car").getResultCount();
+            return size;
+        }
     }
 }

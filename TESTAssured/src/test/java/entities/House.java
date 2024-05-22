@@ -13,10 +13,13 @@ public class House {
     private Long id;
     @Column(columnDefinition = "numeric(19,2)")
     private Float price;
-  @Transient
-  private List<ParkingPlace> parkingPlaces;
-  @Transient
-  private List<Person> lodgers;
+    @OneToMany
+    @JoinColumn(name = "house_id")
+    private List<ParkingPlace> parkingPlaces;
+    @OneToMany
+    @JoinColumn(name = "house_id")
+    private List<Person> lodgers;
+
     public House() {
     }
 
@@ -76,24 +79,26 @@ public class House {
                 ", lodgers=" + lodgers +
                 '}';
     }
-    public boolean equalsWithoutId (House house){
-       if (floorCount == house.floorCount
-           && price.equals(house.price)) return true;
-                else return false;
+
+    public boolean equalsWithoutId(House house) {
+        if (floorCount == house.floorCount
+                && price.equals(house.price)) return true;
+        else return false;
     }
-    public boolean equalsParkingPlaces(List<ParkingPlace> parkingPlaceList){
+
+    public boolean equalsParkingPlaces(List<ParkingPlace> parkingPlaceList) {
         boolean equalsPPL = false;
-        if (parkingPlaces.size()==parkingPlaceList.size()){
-            for (ParkingPlace ppl : parkingPlaceList){
-                for (ParkingPlace pp : parkingPlaces){
-                   if (!pp.equalsWithoutId(ppl)) equalsPPL = false;
-                   else {
-                       equalsPPL = true;
-                       break;
-                   }
+        if (parkingPlaces.size() == parkingPlaceList.size()) {
+            for (ParkingPlace ppl : parkingPlaceList) {
+                for (ParkingPlace pp : parkingPlaces) {
+                    if (!pp.equalsWithoutId(ppl)) equalsPPL = false;
+                    else {
+                        equalsPPL = true;
+                        break;
+                    }
                 }
             }
-        }else equalsPPL = false;
+        } else equalsPPL = false;
         return equalsPPL;
     }
 

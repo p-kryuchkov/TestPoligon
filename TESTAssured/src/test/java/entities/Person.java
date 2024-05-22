@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
 
+import java.util.Objects;
+
 @Entity
 public class Person {
     @Id
@@ -119,5 +121,24 @@ public class Person {
                 ", money=" + money +
                 ", houseId=" + houseId +
                 '}';
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return age == person.age &&
+                Objects.equals(id, person.id) &&
+                Objects.equals(firstName, person.firstName) &&
+                Objects.equals(secondName, person.secondName) &&
+                Objects.equals(isMale, person.isMale) &&
+                Objects.equals(sex, person.sex) &&
+                Objects.equals(money, person.money) &&
+                Objects.equals(houseId, person.houseId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, secondName, age, isMale, sex, money, houseId);
     }
 }

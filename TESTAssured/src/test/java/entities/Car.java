@@ -15,8 +15,9 @@ public class Car {
     private Long id;
     private String mark;
     private String model;
-    @Column(name = "person_id")
-    private Long person;
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
     @Column(columnDefinition = "numeric(12,2)")
     private Float price;
     public Car() {
@@ -69,11 +70,11 @@ public class Car {
         this.model = model;
     }
 
-    public Long getPerson() {
+    public Person getPerson() {
         return person;
     }
 
-    public void setPerson(Long person) {
+    public void setPerson(Person person) {
         this.person = person;
     }
 
@@ -101,12 +102,12 @@ public class Car {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return id == car.id &&
-                Double.compare(car.price, price) == 0 &&
-                Objects.equals(car.engineType, engineType) &&
-                Objects.equals(mark, car.mark) &&
-                Objects.equals(model, car.model) &&
-                Objects.equals(person, car.person);
+        return id.equals(car.id) &&
+                Float.compare(this.price, car.price)==0 &&
+                Objects.equals(this.engineType, car.engineType) &&
+                Objects.equals(this.mark, car.mark) &&
+                Objects.equals(this.model, car.model) &&
+                Objects.equals(this.person, car.person);
     }
 
     @Override

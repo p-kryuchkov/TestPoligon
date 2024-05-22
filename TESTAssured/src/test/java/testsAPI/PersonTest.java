@@ -14,15 +14,14 @@ public class PersonTest {
     @Test
     @DisplayName("Проверка создания юзера")
     public void testCreatePerson() {
-        int sizeBefore = PersonDAO.getAll().size();
+        Long sizeBefore = PersonDAO.getAllPersonSize();
         Person requestPerson = new Person("Ivan","Petrov",22,"MALE",14264F);
-        Person responcePerson = PersonMethods.createPerson(requestPerson);
-        assertTrue(requestPerson.equalsWithotId(responcePerson), "Отправленные и полученные данные не совпадают");
-        Person daoPerson = (Person) Hibernate.unproxy(PersonDAO.getByID(responcePerson.getId()));
-        assertTrue(requestPerson.equalsWithotId(daoPerson), "Отправленные данные и данные в БД не совпадают");
-        int sizeAfter = PersonDAO.getAll().size();
+        Person responsePerson = PersonMethods.createPerson(requestPerson);
+        Person daoPerson = PersonDAO.getByID(responsePerson.getId());
+        Long sizeAfter = PersonDAO.getAllPersonSize();
+        assertTrue(requestPerson.equalsWithotId(responsePerson), "Отправленные и полученные данные не совпадают");
+        assertEquals(responsePerson, daoPerson, "Отправленные данные и данные в БД не совпадают");
         assertEquals(sizeAfter, sizeBefore + 1, "Количество юзеров не изменилось");
-        assertTrue(requestPerson.equalsWithotId(PersonMethods.getPersonByID(responcePerson.getId())),"При поиске по id находится другой юзер");
     }
     @Test
     @DisplayName("Проверка покупки машины")

@@ -10,14 +10,14 @@ import java.util.Objects;
 @Table(name = "engine_type")
 public class EngineType {
     @Id
-    private long id;
+    private Long id;
     private String type_name;
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -36,12 +36,12 @@ public class EngineType {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EngineType engineType = (EngineType) o;
-        return id == engineType.id;
+        return this.id.equals(engineType.id) && this.type_name.equals(engineType.type_name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, type_name);
     }
     @Override
     public String toString() {
