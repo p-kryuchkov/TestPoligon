@@ -2,6 +2,7 @@ package entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -61,6 +62,11 @@ public class House {
 
     public void setLodgers(List<Person> lodgers) {
         this.lodgers = lodgers;
+    }
+    public List<Long> getLodgersIds(){
+        List<Long> lodgersIds = new ArrayList<>();
+        for (Person p : this.getLodgers()) lodgersIds.add(p.getId());
+        return lodgersIds;
     }
 
     public House(int floorCount, Float price, List<ParkingPlace> parkingPlaces) {

@@ -131,8 +131,7 @@ public class Person {
                 Objects.equals(id, person.id) &&
                 Objects.equals(firstName, person.firstName) &&
                 Objects.equals(secondName, person.secondName) &&
-                Objects.equals(isMale, person.isMale) &&
-                Objects.equals(sex, person.sex) &&
+               // Objects.equals(isMale, person.isMale) &&
                 Objects.equals(money, person.money) &&
                 Objects.equals(houseId, person.houseId);
     }
