@@ -32,7 +32,7 @@ public class PersonTest {
             Person responsePerson = PersonMethods.buyCar(requestPerson.getId(), carId);
             assertEquals(responsePerson.getId(), requestPerson.getId(), "id покупателя в запросе и ответе не совпадает");
             assertEquals(responsePerson.getMoney(), requestPerson.getMoney() - CarDAO.getByID(carId).getPrice(), "У покупателя некорректно списались деньги за покупку");
-            assertEquals(requestPerson.getId(), CarDAO.getByID(carId).getPerson(), "В БД некорректно присвоен ID владельца машины");
+            assertEquals(requestPerson.getId(), CarDAO.getByID(carId).getPerson().getId(), "В БД некорректно присвоен ID владельца машины");
         }catch (NullPointerException e){
             fail("В базе нет свободных машин для покупки");
         }
