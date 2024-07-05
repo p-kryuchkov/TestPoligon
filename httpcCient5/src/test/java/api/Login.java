@@ -22,6 +22,7 @@ import java.util.Base64;
 import java.util.Properties;
 
 import static api.Specifications.*;
+import static org.junit.jupiter.api.Assertions.fail;
 
 
 public class Login {
@@ -40,11 +41,19 @@ public class Login {
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
             System.out.println(response.toString());
             String responseBody = EntityUtils.toString(response.getEntity());
+            if (responseBody == null) fail("Ответ при логине не получен");
             Gson gson = new Gson();
-            JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
-            String accessToken = jsonObject.get("access_token").getAsString();
-            System.out.println(accessToken);
-            return accessToken;
+            try {
+                JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
+                if (jsonObject.get("access_token") == null) fail("Авторизационный токен не получен");
+                String accessToken = jsonObject.get("access_token").getAsString();
+                System.out.println(accessToken);
+                return accessToken;
+            }
+            catch (NullPointerException e){
+                fail("Ответ при логине пустой");
+            }
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

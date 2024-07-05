@@ -29,7 +29,7 @@ public class Specifications {
 static Properties properties = getProperties();
     public static final String baseUrl = properties.getProperty("baseURL");
     public static final String login = "/login";
-    public static final String car = "car/";
+    public static final String car = "/car/";
     public static final String person = "user/";
     public static final String house = "house/";
 }
