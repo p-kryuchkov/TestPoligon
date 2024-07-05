@@ -76,7 +76,7 @@ public class CarMethods {
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
             System.out.println(response.toString());
             String responseBody = EntityUtils.toString(response.getEntity());
-            if (responseBody == null) fail("Ответ при логине не получен");
+            if (responseBody == null) fail("Ответ не получен");
             Gson gson = new Gson();
             try {
                 JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
@@ -92,7 +92,7 @@ public class CarMethods {
                 return responseCar;
             }
             catch (NullPointerException e){
-                fail("Ответ при логине пустой");
+                fail("Ответ пустой");
             }
         } catch (Exception e) {
             e.printStackTrace();

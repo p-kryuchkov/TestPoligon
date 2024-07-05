@@ -40,6 +40,8 @@ public class CarDAO {
 
     public static Car getCarIdWithoutPerson() {
         configuration.addAnnotatedClass(Car.class);
+        configuration.addAnnotatedClass(EngineType.class);
+        configuration.addAnnotatedClass(Person.class);
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings((configuration.getProperties()));
         try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
              Session session = sessionFactory.openSession()) {
