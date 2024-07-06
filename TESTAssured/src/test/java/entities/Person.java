@@ -7,6 +7,8 @@ import jakarta.persistence.Transient;
 
 import java.util.Objects;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 @Entity
 public class Person {
     @Id
@@ -93,6 +95,9 @@ public class Person {
     }
 
     public Person(String firstName, String secondName, int age, String sex, Float money) {
+        if (sex.equals("MALE")) this.isMale = true;
+        if (sex.equals("FEMALE")) this.isMale = false;
+        else fail("Некорректно передан пол");
         this.firstName = firstName;
         this.secondName = secondName;
         this.age = age;
@@ -100,7 +105,19 @@ public class Person {
         this.money = money;
     }
 
+    public Person(String firstName, String secondName, int age, Boolean isMale, Float money) {
+        if (isMale.equals(true)) this.sex = "MALE";
+        if (isMale.equals(false)) this.sex = "FEMALE";
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.age = age;
+        this.isMale = isMale;
+        this.money = money;
+    }
+
     public boolean equalsWithotId(Person person) {
+        if (sex.equals(null) && isMale.equals(true)) sex = "MALE";
+        if (sex.equals(null) && isMale.equals(false)) sex = "FEMALE";
         if (firstName.equals(person.getFirstName()) &&
                 secondName.equals(person.getSecondName()) &&
                 age == person.getAge() &&

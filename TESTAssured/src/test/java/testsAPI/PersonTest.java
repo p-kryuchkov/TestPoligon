@@ -15,7 +15,7 @@ public class PersonTest {
     @DisplayName("Проверка создания юзера")
     public void testCreatePerson() {
         Long sizeBefore = PersonDAO.getAllPersonSize();
-        Person requestPerson = new Person("Ivan","Petrov",22,"MALE",14264F);
+        Person requestPerson = PersonMethods.createRandomPerson(12);
         Person responsePerson = PersonMethods.createPerson(requestPerson);
         Person daoPerson = PersonDAO.getByID(responsePerson.getId());
         Long sizeAfter = PersonDAO.getAllPersonSize();
