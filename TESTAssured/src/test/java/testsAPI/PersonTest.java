@@ -3,6 +3,7 @@ package testsAPI;
 import api.PersonMethods;
 import dao.CarDAO;
 import dao.PersonDAO;
+import dao.DAO;
 import entities.Person;
 import org.hibernate.Hibernate;
 import org.junit.jupiter.api.DisplayName;
@@ -11,14 +12,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PersonTest {
+    DAO daoPersonDao = new DAO<>(Person.class);
     @Test
     @DisplayName("Проверка создания юзера")
     public void testCreatePerson() {
-        Long sizeBefore = PersonDAO.getAllPersonSize();
+        Long sizeBefore = daoPersonDao.getAllSize();
         Person requestPerson = PersonMethods.createRandomPerson(12);
         Person responsePerson = PersonMethods.createPerson(requestPerson);
-        Person daoPerson = PersonDAO.getByID(responsePerson.getId());
-        Long sizeAfter = PersonDAO.getAllPersonSize();
+        Person daoPerson = (Person) daoPersonDao.getByID(responsePerson.getId());
+        Long sizeAfter =new DAO<>(Person.class).getAllSize();
         assertTrue(requestPerson.equalsWithotId(responsePerson), "Отправленные и полученные данные не совпадают");
         assertEquals(responsePerson, daoPerson, "Отправленные данные и данные в БД не совпадают");
         assertEquals(sizeAfter, sizeBefore + 1, "Количество юзеров не изменилось");
@@ -27,7 +29,7 @@ public class PersonTest {
     @DisplayName("Проверка покупки машины")
     public void testBuyCar(){
         try {
-            Person requestPerson = PersonDAO.getByID(17);
+            Person requestPerson = (Person) daoPersonDao.getByID(17);
             Long carId = CarDAO.getCarIdWithoutPerson().getId();
             Person responsePerson = PersonMethods.buyCar(requestPerson.getId(), carId);
             assertEquals(responsePerson.getId(), requestPerson.getId(), "id покупателя в запросе и ответе не совпадает");

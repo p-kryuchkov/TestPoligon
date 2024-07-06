@@ -12,35 +12,24 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class PersonDAO {
+public class PersonDAO extends DAO {
+    static SessionFactory sessionFactory;
     static Configuration configuration = new Configuration();
 
-    public static Person getByID(long id) {
+    static {
+        Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(Person.class);
+        configuration.addPackage("entities");
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-        try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-             Session session = sessionFactory.openSession()) {
-            Person person = (Person) session.get(Person.class, id);
-            if (person.isMale()) person.setSex("MALE");
-            return person;
-        }
+        sessionFactory = configuration.buildSessionFactory(builder.build());
     }
 
-    public static List<Person> getAll() {
-        configuration.addAnnotatedClass(Person.class);
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-        try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-             Session session = sessionFactory.openSession()) {
-            List<Person> personList = session.createQuery("from Person").list();
-            return personList;
-        }
+    public PersonDAO(Class type) {
+        super(Person.class);
     }
 
     public static Person getPersonIdWithoutHouse() {
-        configuration.addAnnotatedClass(Person.class);
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings((configuration.getProperties()));
-        try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-             Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             List<Person> persons = session.createQuery("from Person where houseId is null").list();
             if (!persons.isEmpty()) {
                 Person person = persons.get(0);
@@ -51,12 +40,9 @@ public class PersonDAO {
             }
         }
     }
+
     public static Long getAllPersonSize() {
-        configuration.addAnnotatedClass(Person.class);
-        StandardServiceRegistryBuilder builder
-                = new StandardServiceRegistryBuilder().applySettings((configuration.getProperties()));
-        try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-             Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Long size = session.createQuery("from Person").getResultCount();
             return size;
         }

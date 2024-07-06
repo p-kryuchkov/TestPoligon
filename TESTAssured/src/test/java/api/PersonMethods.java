@@ -9,11 +9,11 @@ import static api.Login.getToken;
 import static api.Specifications.getSpecifications;
 import static api.Specifications.person;
 import static io.restassured.RestAssured.given;
-import static java.lang.Math.*;
+import static java.lang.Math.round;
 
 
 public class PersonMethods {
-    public static Person getPersonByID(long id){
+    public static Person getPersonByID(long id) {
         getSpecifications();
         Person response = given()
                 .log().all()
@@ -30,7 +30,7 @@ public class PersonMethods {
         return response;
     }
 
-    public static Person createPerson(Person requestPerson){
+    public static Person createPerson(Person requestPerson) {
         getSpecifications();
         Person response = given()
                 .log().all()
@@ -47,7 +47,7 @@ public class PersonMethods {
         return response;
     }
 
-    public static Person buyCar(long personId, long carId){
+    public static Person buyCar(long personId, long carId) {
         getSpecifications();
         Person response = given()
                 .log().all()
@@ -60,18 +60,21 @@ public class PersonMethods {
         System.out.println(response.toString());
         return response;
     }
-    /** Метод принимает в себя длину уникальной строки, которую добавит в Имя/Фамилию и сгенерирует остальные данные*/
-    public static Person createRandomPerson(int length){
+
+    /**
+     * Метод принимает в себя длину уникальной строки, которую добавит в Имя/Фамилию и сгенерирует остальные данные
+     */
+    public static Person createRandomPerson(int length) {
         Random r = new Random();
         char[] charArray = new char[length];
-        for(int i = 0; i<length; i++){
-           char c =(char) (r.nextInt(25) + 65);
-           charArray[i] = c;
+        for (int i = 0; i < length; i++) {
+            char c = (char) (r.nextInt(25) + 65);
+            charArray[i] = c;
         }
         String randomString = new String(charArray);
         DecimalFormat df = new DecimalFormat("#.##");
-        Float money = (float) (round(r.nextFloat() * 1000000)/100.0);
-        Person randomPerson = new Person("firstName"+randomString,"secondName"+randomString,r.nextInt(99)+1,r.nextBoolean(), money);
+        Float money = (float) (round(r.nextFloat() * 1000000) / 100.0);
+        Person randomPerson = new Person("firstName" + randomString, "secondName" + randomString, r.nextInt(99) + 1, r.nextBoolean(), money);
         return randomPerson;
     }
 }
