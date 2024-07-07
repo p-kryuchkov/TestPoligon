@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class PersonDAO extends DAO {
     static SessionFactory sessionFactory;
-    static Configuration configuration = new Configuration();
 
     static {
         Configuration configuration = new Configuration();
@@ -36,15 +35,10 @@ public class PersonDAO extends DAO {
                 System.out.println(person.toString());
                 return person;
             } else {
+                fail("Бездомных в базе нет");
                 return null;
             }
         }
     }
 
-    public static Long getAllPersonSize() {
-        try (Session session = sessionFactory.openSession()) {
-            Long size = session.createQuery("from Person").getResultCount();
-            return size;
-        }
-    }
 }

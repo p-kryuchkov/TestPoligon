@@ -1,5 +1,6 @@
 package dao;
 
+import entities.EngineType;
 import entities.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +17,10 @@ public class DAO<T> {
         this.type = type;
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(type);
+ //ToDo переделай этот позор
+        configuration.addAnnotatedClass(EngineType.class);
+        configuration.addAnnotatedClass(Person.class);
+
         configuration.addPackage("entities");
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
         sessionFactory = configuration.buildSessionFactory(builder.build());
@@ -31,5 +36,4 @@ public class DAO<T> {
             return session.createQuery("from " + type.getName()).getResultCount();
         }
     }
-
 }
