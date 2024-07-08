@@ -13,23 +13,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class CarDAO extends DAO {
-    static SessionFactory sessionFactory;
 
-    static {
-        Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(Car.class);
-        configuration.addPackage("entities");
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-        sessionFactory = configuration.buildSessionFactory(builder.build());
-    }
-    public CarDAO(Class type) {
+    public CarDAO() {
         super(Car.class);
     }
-
-
-
-
-
     public static Car getCarIdWithoutPerson() {
         try (Session session = sessionFactory.openSession()) {
             List<Car> cars = session.createQuery("from Car where person is null").list();

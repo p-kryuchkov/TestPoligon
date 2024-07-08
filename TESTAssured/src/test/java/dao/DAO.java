@@ -1,7 +1,6 @@
 package dao;
 
-import entities.EngineType;
-import entities.Person;
+import entities.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -20,7 +19,9 @@ public class DAO<T> {
  //ToDo переделай этот позор
         configuration.addAnnotatedClass(EngineType.class);
         configuration.addAnnotatedClass(Person.class);
-
+        configuration.addAnnotatedClass(Car.class);
+        configuration.addAnnotatedClass(House.class);
+        configuration.addAnnotatedClass(ParkingPlace.class);
         configuration.addPackage("entities");
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
         sessionFactory = configuration.buildSessionFactory(builder.build());

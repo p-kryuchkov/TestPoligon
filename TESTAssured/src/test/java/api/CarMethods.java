@@ -81,7 +81,7 @@ public class CarMethods {
         DecimalFormat df = new DecimalFormat("#.##");
         Float price = (float) (round(r.nextFloat() * 1000000) / 100.0);
         DAO engineTypeDao = new DAO<>(EngineType.class);
-        long randomETypeId = r.nextLong(engineTypeDao.getAllSize() + 1);
+        long randomETypeId = r.nextInt(engineTypeDao.getAllSize().intValue() + 1);
         EngineType engineType = (EngineType) engineTypeDao.getByID(randomETypeId);
         Car randomCar = new Car(engineType.getType_name(), "mark" + randomString, "model" + randomString, price);
         return randomCar;

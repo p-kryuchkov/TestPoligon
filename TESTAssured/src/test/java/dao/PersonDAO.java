@@ -13,21 +13,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class PersonDAO extends DAO {
-    static SessionFactory sessionFactory;
-
-    static {
-        Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(Person.class);
-        configuration.addPackage("entities");
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-        sessionFactory = configuration.buildSessionFactory(builder.build());
-    }
-
-    public PersonDAO(Class type) {
+   public PersonDAO() {
         super(Person.class);
     }
 
-    public static Person getPersonIdWithoutHouse() {
+    public Person getPersonIdWithoutHouse() {
         try (Session session = sessionFactory.openSession()) {
             List<Person> persons = session.createQuery("from Person where houseId is null").list();
             if (!persons.isEmpty()) {
