@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -32,9 +33,21 @@ public class DAO<T> {
             return entity;
         }
     }
+    public List<T> getAll() {
+        try (Session session = sessionFactory.openSession()){
+            return session.createQuery("from "+ type.getName()).getResultList();
+        }
+    }
     public Long getAllSize() {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("from " + type.getName()).getResultCount();
+        }
+    }
+    public T getValueByFieldName(String field, Object value) {
+        try (Session session = sessionFactory.openSession()) {
+            Query query = session.createQuery("from " + type.getName() + " where " + field + " = :value")
+                    .setParameter("value", value);
+            return (T) query.uniqueResult();
         }
     }
 }

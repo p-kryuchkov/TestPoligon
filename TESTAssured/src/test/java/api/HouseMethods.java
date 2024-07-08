@@ -1,11 +1,18 @@
 package api;
 
+import dao.DAO;
+import entities.Car;
+import entities.EngineType;
 import entities.House;
+
+import java.text.DecimalFormat;
+import java.util.Random;
 
 import static api.Login.getToken;
 import static api.Specifications.getSpecifications;
 import static api.Specifications.house;
 import static io.restassured.RestAssured.given;
+import static java.lang.Math.round;
 
 public class HouseMethods {
     public static House getHouseById(long id) {
@@ -49,5 +56,13 @@ public class HouseMethods {
                 .body().as(House.class);
         System.out.println(response.toString());
         return response;
+    }
+       public static House createRandomHouse() {
+        Random r = new Random();
+        DecimalFormat df = new DecimalFormat("#.##");
+        Float price = (float) (round(r.nextFloat() * 1000000) / 100.0);
+        int randomFloorCount = r.nextInt(6 + 1);
+        House randomHouse = new House(randomFloorCount,price);
+        return randomHouse;
     }
 }

@@ -116,12 +116,11 @@ public class Person {
     }
 
     public boolean equalsWithotId(Person person) {
-        if (sex.equals(null) && isMale.equals(true)) sex = "MALE";
-        if (sex.equals(null) && isMale.equals(false)) sex = "FEMALE";
+
         if (firstName.equals(person.getFirstName()) &&
                 secondName.equals(person.getSecondName()) &&
                 age == person.getAge() &&
-                sex.equals(person.getSex()) &&
+                isMale.equals(person.isMale) &&
                 money.equals(person.getMoney())) return true;
         else return false;
     }

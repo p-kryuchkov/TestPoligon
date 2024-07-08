@@ -14,10 +14,10 @@ public class House {
     private Long id;
     @Column(columnDefinition = "numeric(19,2)")
     private Float price;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "house_id")
     private List<ParkingPlace> parkingPlaces;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "house_id")
     private List<Person> lodgers;
 
@@ -69,10 +69,9 @@ public class House {
         return lodgersIds;
     }
 
-    public House(int floorCount, Float price, List<ParkingPlace> parkingPlaces) {
+    public House(int floorCount, Float price) {
         this.floorCount = floorCount;
         this.price = price;
-        this.parkingPlaces = parkingPlaces;
     }
 
     @Override
