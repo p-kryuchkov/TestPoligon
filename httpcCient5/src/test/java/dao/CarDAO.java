@@ -12,39 +12,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class CarDAO {
-    static Configuration configuration = new Configuration();
+public class CarDAO extends DAO {
 
-    public static Car getByID(long id) {
-        configuration.addAnnotatedClass(Car.class);
-        configuration.addAnnotatedClass(EngineType.class);
-        configuration.addAnnotatedClass(Person.class);
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-        try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-             Session session = sessionFactory.openSession()) {
-            Car car = (Car) session.get(Car.class, id);
-          System.out.println(car.toString());
-            return car;
-        }
+    public CarDAO() {
+        super(Car.class);
     }
-
-    public static List<Car> getAll() {
-        configuration.addAnnotatedClass(Car.class);
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-        try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-             Session session = sessionFactory.openSession()) {
-            List<Car> cars = session.createQuery("from Car").list();
-            return cars;
-        }
-    }
-
     public static Car getCarIdWithoutPerson() {
-        configuration.addAnnotatedClass(Car.class);
-        configuration.addAnnotatedClass(EngineType.class);
-        configuration.addAnnotatedClass(Person.class);
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings((configuration.getProperties()));
-        try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-             Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             List<Car> cars = session.createQuery("from Car where person is null").list();
             if (!cars.isEmpty()) {
                 Car car = cars.get(0);
@@ -54,19 +28,6 @@ public class CarDAO {
                 fail("Свободных машин в базе нет");
                 return null;
             }
-        }
-    }
-
-    public static Long getAllCarsSize() {
-        configuration.addAnnotatedClass(Car.class);
-        configuration.addAnnotatedClass(EngineType.class);
-        configuration.addAnnotatedClass(Person.class);
-        StandardServiceRegistryBuilder builder
-                = new StandardServiceRegistryBuilder().applySettings((configuration.getProperties()));
-        try (SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-             Session session = sessionFactory.openSession()) {
-            Long size = session.createQuery("from Car").getResultCount();
-            return size;
         }
     }
 }

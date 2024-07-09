@@ -7,6 +7,8 @@ import jakarta.persistence.Transient;
 
 import java.util.Objects;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 @Entity
 public class Person {
     @Id
@@ -93,6 +95,8 @@ public class Person {
     }
 
     public Person(String firstName, String secondName, int age, String sex, Float money) {
+        if (sex.equals("MALE")) this.isMale = true;
+        if (sex.equals("FEMALE")) this.isMale = false;
         this.firstName = firstName;
         this.secondName = secondName;
         this.age = age;
@@ -100,11 +104,22 @@ public class Person {
         this.money = money;
     }
 
+    public Person(String firstName, String secondName, int age, Boolean isMale, Float money) {
+        if (isMale.equals(true)) this.sex = "MALE";
+        if (isMale.equals(false)) this.sex = "FEMALE";
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.age = age;
+        this.isMale = isMale;
+        this.money = money;
+    }
+
     public boolean equalsWithotId(Person person) {
+
         if (firstName.equals(person.getFirstName()) &&
                 secondName.equals(person.getSecondName()) &&
                 age == person.getAge() &&
-                sex.equals(person.getSex()) &&
+                isMale.equals(person.isMale) &&
                 money.equals(person.getMoney())) return true;
         else return false;
     }
@@ -125,7 +140,7 @@ public class Person {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
         return age == person.age &&
                 Objects.equals(id, person.id) &&

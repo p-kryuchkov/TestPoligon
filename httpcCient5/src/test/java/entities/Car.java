@@ -2,6 +2,7 @@ package entities;
 
 import dao.EngineTypeDAO;
 import jakarta.persistence.*;
+import entities.EngineType;
 
 import java.util.Objects;
 
