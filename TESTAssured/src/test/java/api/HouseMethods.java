@@ -1,8 +1,5 @@
 package api;
 
-import dao.DAO;
-import entities.Car;
-import entities.EngineType;
 import entities.House;
 
 import java.text.DecimalFormat;
@@ -29,6 +26,7 @@ public class HouseMethods {
         System.out.println(response.toString());
         return response;
     }
+
     public static House createHouse(House requestHouse) {
         getSpecifications();
         House response = given()
@@ -57,12 +55,13 @@ public class HouseMethods {
         System.out.println(response.toString());
         return response;
     }
-       public static House createRandomHouse() {
+
+    public static House createRandomHouse() {
         Random r = new Random();
         DecimalFormat df = new DecimalFormat("#.##");
         Float price = (float) (round(r.nextFloat() * 1000000) / 100.0);
         int randomFloorCount = r.nextInt(6 + 1);
-        House randomHouse = new House(randomFloorCount,price);
+        House randomHouse = new House(randomFloorCount, price);
         return randomHouse;
     }
 }

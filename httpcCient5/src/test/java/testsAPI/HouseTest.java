@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static api.CarMethods.parseCarToJson;
 import static api.HouseMethods.createRandomHouse;
 import static api.HouseMethods.parseHouseToJson;
-import static api.Specifications.*;
+import static api.Specifications.baseUrl;
+import static api.Specifications.house;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -40,8 +40,8 @@ public class HouseTest {
         parkingPlaces.add(new ParkingPlace(true, false, 1));
         House requestHouse = createRandomHouse();
         requestHouse.setParkingPlaces(parkingPlaces);
-        String json = houseApi.executeHttpRequest(houseApi.postRequest(baseUrl+house, parseHouseToJson(requestHouse)));
-House responseHouse = HouseMethods.parseJsonToHouse(json);
+        String json = houseApi.executeHttpRequest(houseApi.postRequest(baseUrl + house, parseHouseToJson(requestHouse)));
+        House responseHouse = HouseMethods.parseJsonToHouse(json);
 
         House daoHouseResult = (House) daoHouse.getByID(responseHouse.getId()); // Да я возьму ид из апи, но потом все равно сравню уникальные данные типа price и сверю
         // House daoHouseResult = (House) daoHouse.getValueByFieldName("price", requestHouse.getPrice()); Очень бы хотелось сделать так, но гибернейт коряво обрабатывает Float и BigDecimal, не смог победить(((
@@ -59,8 +59,10 @@ House responseHouse = HouseMethods.parseJsonToHouse(json);
     @Test
     @DisplayName("Проверка заселения в дом")
     public void testSettle() throws IOException {
-        List<House> houses = daoHouse.getAll();
-        House requestHouse = houses.get(new Random().nextInt(houses.size()));
+        House requestHouse = null;
+        while (requestHouse == null) {
+            requestHouse = (House) daoHouse.getByID(new Random().nextLong(daoHouse.getAllSize()));
+        }
         Integer lodgersSizeBefore = requestHouse.getLodgers().size();
         Person requestPerson = daoPerson.getPersonIdWithoutHouse();
         Assumptions.assumeTrue(!requestPerson.equals(null), "В базе нет бездомных");
@@ -70,6 +72,6 @@ House responseHouse = HouseMethods.parseJsonToHouse(json);
         assertEquals(responseHouse.getId(), requestHouse.getId(), "id дома в запросе и ответе не совпадает");
         assertEquals(responseHouse.getLodgers().size(), lodgersSizeBefore + 1, "количество жильцов после заселения некорректно");
         assertTrue(responseHouse.getLodgersIds().contains(requestPerson.getId()), "в списке жильцов нет жильца из запроса");
-        assertEquals(requestPerson.getMoney() - responseHouse.getPrice(), daoPersonResult.getMoney(), "Количество денег у жильца не изменилось");
+        assertEquals(requestPerson.getMoney() - responseHouse.getPrice(), daoPersonResult.getMoney(), 0.001, "Количество денег у жильца не изменилось");
     }
 }

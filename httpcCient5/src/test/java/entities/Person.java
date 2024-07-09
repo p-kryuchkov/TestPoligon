@@ -7,15 +7,13 @@ import jakarta.persistence.Transient;
 
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 @Entity
 public class Person {
     @Id
     private Long id;
     @Column(name = "first_name")
     private String firstName;
-    @Column (name = "second_name")
+    @Column(name = "second_name")
     private String secondName;
     private int age;
     @Column(name = "sex")
@@ -137,6 +135,7 @@ public class Person {
                 ", houseId=" + houseId +
                 '}';
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -146,7 +145,7 @@ public class Person {
                 Objects.equals(id, person.id) &&
                 Objects.equals(firstName, person.firstName) &&
                 Objects.equals(secondName, person.secondName) &&
-               // Objects.equals(isMale, person.isMale) &&
+                // Objects.equals(isMale, person.isMale) &&
                 Objects.equals(money, person.money) &&
                 Objects.equals(houseId, person.houseId);
     }

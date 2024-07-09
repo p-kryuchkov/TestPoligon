@@ -24,7 +24,11 @@ public class House {
     public House() {
     }
 
-    public House(int floorCount, Float price, List<ParkingPlace> parkingPlaces) {
+    public House(int floorCount, Float price, List<ParkingPlace> parkingPlaces, List<Person> lodgers) {
+        this.floorCount = floorCount;
+        this.price = price;
+        this.parkingPlaces = parkingPlaces;
+        this.lodgers = lodgers;
     }
 
     public int getFloorCount() {
@@ -66,7 +70,8 @@ public class House {
     public void setLodgers(List<Person> lodgers) {
         this.lodgers = lodgers;
     }
-    public List<Long> getLodgersIds(){
+
+    public List<Long> getLodgersIds() {
         List<Long> lodgersIds = new ArrayList<>();
         for (Person p : this.getLodgers()) lodgersIds.add(p.getId());
         return lodgersIds;

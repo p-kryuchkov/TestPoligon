@@ -1,18 +1,12 @@
 package dao;
 
-import entities.Car;
-import entities.House;
 import entities.ParkingPlace;
-import entities.Person;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
 public class ParkingPlaceDAO extends DAO {
-       public ParkingPlaceDAO() {
+    public ParkingPlaceDAO() {
         super(ParkingPlace.class);
     }
 

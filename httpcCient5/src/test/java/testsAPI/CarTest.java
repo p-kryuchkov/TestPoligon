@@ -2,7 +2,6 @@ package testsAPI;
 
 
 import api.CarMethods;
-import api.CarMethods;
 import dao.CarDAO;
 import entities.Car;
 import org.junit.jupiter.api.DisplayName;
@@ -25,12 +24,12 @@ public class CarTest {
     public void testCreateCar() throws IOException {
         Long sizeBefore = daoCar.getAllSize();
         Car requestCar = CarMethods.createRandomCar(4);
-        String json = carApi.executeHttpRequest(carApi.postRequest(baseUrl+car, parseCarToJson(requestCar)));
+        String json = carApi.executeHttpRequest(carApi.postRequest(baseUrl + car, parseCarToJson(requestCar)));
         Car responceCar = CarMethods.parseJsonToCar(json);
         Long sizeAfter = daoCar.getAllSize();
-        Car daoCarResult = (Car) daoCar.getValueByFieldName("mark",requestCar.getMark());
+        Car daoCarResult = (Car) daoCar.getValueByFieldName("mark", requestCar.getMark());
         assertTrue(requestCar.equalsWithotId(responceCar), "Отправленные и полученные данные не совпадают");
-        assertEquals(responceCar,daoCarResult,"Машины в ответе и в БД не совпадают");
+        assertEquals(responceCar, daoCarResult, "Машины в ответе и в БД не совпадают");
         assertEquals(sizeAfter, sizeBefore + 1, "Количество машин не изменилось");
     }
 }

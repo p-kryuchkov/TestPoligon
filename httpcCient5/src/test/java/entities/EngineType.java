@@ -31,6 +31,7 @@ public class EngineType {
 
     public EngineType() {
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,6 +44,7 @@ public class EngineType {
     public int hashCode() {
         return Objects.hash(id, type_name);
     }
+
     @Override
     public String toString() {
         return "EngineType{" +

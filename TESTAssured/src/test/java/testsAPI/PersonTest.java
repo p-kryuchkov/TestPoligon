@@ -40,14 +40,13 @@ public class PersonTest {
             if (person.getMoney() > requestCar.getPrice()) {
                 requestPerson = person;
                 break;
-            }
-            else continue;
+            } else continue;
         }
         ;
         Person responsePerson = PersonMethods.buyCar(requestPerson.getId(), requestCar.getId());
         Car daoCarResult = (Car) daoCar.getByID(requestCar.getId());
         assertEquals(responsePerson.getId(), requestPerson.getId(), "id покупателя в запросе и ответе не совпадает");
-        assertEquals(responsePerson.getMoney(), requestPerson.getMoney() - daoCarResult.getPrice(), "У покупателя некорректно списались деньги за покупку");
+        assertEquals(responsePerson.getMoney(), requestPerson.getMoney() - daoCarResult.getPrice(), 0.001, "У покупателя некорректно списались деньги за покупку");
         assertEquals(requestPerson.getId(), daoCarResult.getPerson().getId(), "В БД некорректно присвоен ID владельца машины");
     }
 }

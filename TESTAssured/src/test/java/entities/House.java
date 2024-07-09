@@ -63,7 +63,8 @@ public class House {
     public void setLodgers(List<Person> lodgers) {
         this.lodgers = lodgers;
     }
-    public List<Long> getLodgersIds(){
+
+    public List<Long> getLodgersIds() {
         List<Long> lodgersIds = new ArrayList<>();
         for (Person p : this.getLodgers()) lodgersIds.add(p.getId());
         return lodgersIds;

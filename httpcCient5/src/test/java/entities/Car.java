@@ -2,7 +2,6 @@ package entities;
 
 import dao.EngineTypeDAO;
 import jakarta.persistence.*;
-import entities.EngineType;
 
 import java.util.Objects;
 
@@ -20,6 +19,7 @@ public class Car {
     private Person person;
     @Column(columnDefinition = "numeric(12,2)")
     private Float price;
+
     public Car() {
     }
 
@@ -30,6 +30,7 @@ public class Car {
         this.model = model;
         this.price = price;
     }
+
     public Car(String engineType, String mark, String model, Float price) {
         this.engineType = EngineTypeDAO.getByName(engineType);
         this.mark = mark;
@@ -44,7 +45,10 @@ public class Car {
     public void setEngineType(EngineType engineType) {
         this.engineType = engineType;
     }
-    public void setEngineType(String engineType) {this.engineType = EngineTypeDAO.getByName(engineType);}
+
+    public void setEngineType(String engineType) {
+        this.engineType = EngineTypeDAO.getByName(engineType);
+    }
 
     public Long getId() {
         return id;
@@ -85,6 +89,7 @@ public class Car {
     public void setPrice(Float price) {
         this.price = price;
     }
+
     @Override
     public String toString() {
         return "Car{" +
@@ -103,7 +108,7 @@ public class Car {
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
         return id.equals(car.id) &&
-                Float.compare(this.price, car.price)==0 &&
+                Float.compare(this.price, car.price) == 0 &&
                 Objects.equals(this.engineType, car.engineType) &&
                 Objects.equals(this.mark, car.mark) &&
                 Objects.equals(this.model, car.model) &&

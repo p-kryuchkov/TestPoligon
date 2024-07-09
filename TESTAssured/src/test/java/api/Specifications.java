@@ -16,7 +16,7 @@ public class Specifications {
         try {
             properties.load(new FileReader("src/test/resources/project.properties"));
         } catch (IOException e) {
-            fail ("Файл project.properties не найден");
+            fail("Файл project.properties не найден");
         }
         return properties;
     }
@@ -28,7 +28,7 @@ public class Specifications {
                 .addHeader("Content-Type", "application/json")
                 .build();
         RestAssured.requestSpecification = requestSpecification;
-}
+    }
 
     public static final String login = "login";
     public static final String car = "car/";

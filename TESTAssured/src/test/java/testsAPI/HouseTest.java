@@ -52,8 +52,10 @@ public class HouseTest {
     @Test
     @DisplayName("Проверка заселения в дом")
     public void testSettle() {
-        List<House> houses = daoHouse.getAll();
-        House requestHouse = houses.get(new Random().nextInt(houses.size()));
+        House requestHouse = null;
+        while (requestHouse == null) {
+            requestHouse = (House) daoHouse.getByID(new Random().nextLong(daoHouse.getAllSize()));
+        }
         Integer lodgersSizeBefore = requestHouse.getLodgers().size();
         Person requestPerson = daoPerson.getPersonIdWithoutHouse();
         Assumptions.assumeTrue(!requestPerson.equals(null), "В базе нет бездомных");
@@ -62,6 +64,6 @@ public class HouseTest {
         assertEquals(responseHouse.getId(), requestHouse.getId(), "id дома в запросе и ответе не совпадает");
         assertEquals(responseHouse.getLodgers().size(), lodgersSizeBefore + 1, "количество жильцов после заселения некорректно");
         assertTrue(responseHouse.getLodgersIds().contains(requestPerson.getId()), "в списке жильцов нет жильца из запроса");
-        assertEquals(requestPerson.getMoney() - responseHouse.getPrice(), daoPersonResult.getMoney(), "Количество денег у жильца не изменилось");
+        assertEquals(requestPerson.getMoney() - responseHouse.getPrice(), daoPersonResult.getMoney(), 0.001, "Количество денег у жильца не изменилось");
     }
 }

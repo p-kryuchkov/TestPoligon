@@ -1,15 +1,9 @@
 package dao;
 
-import entities.*;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-
-import java.util.List;
+import entities.House;
 
 public class HouseDAO extends DAO {
-       public HouseDAO() {
+    public HouseDAO() {
         super(House.class);
     }
 }

@@ -13,7 +13,6 @@ import java.util.Random;
 import static api.Login.getToken;
 import static api.Specifications.car;
 import static api.Specifications.getSpecifications;
-import static io.restassured.RestAssured.given;
 import static java.lang.Math.round;
 import static org.junit.jupiter.api.Assertions.fail;
 

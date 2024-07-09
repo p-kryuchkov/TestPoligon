@@ -1,19 +1,14 @@
 package dao;
 
-import entities.Car;
-import entities.EngineType;
 import entities.Person;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class PersonDAO extends DAO {
-   public PersonDAO() {
+    public PersonDAO() {
         super(Person.class);
     }
 

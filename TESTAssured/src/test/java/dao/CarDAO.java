@@ -1,12 +1,7 @@
 package dao;
 
 import entities.Car;
-import entities.EngineType;
-import entities.Person;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
@@ -17,6 +12,7 @@ public class CarDAO extends DAO {
     public CarDAO() {
         super(Car.class);
     }
+
     public static Car getCarIdWithoutPerson() {
         try (Session session = sessionFactory.openSession()) {
             List<Car> cars = session.createQuery("from Car where person is null").list();
