@@ -45,9 +45,9 @@ public class DAO<T> {
     }
     public T getValueByFieldName(String field, Object value) {
         try (Session session = sessionFactory.openSession()) {
-            Query query = session.createQuery("from " + type.getName() + " where " + field + " = :value")
-                    .setParameter("value", value);
-            return (T) query.uniqueResult();
+            T query = (T) session.createQuery("from " + type.getName() + " where " + field + " = :value")
+                    .setParameter("value", value).uniqueResult();
+            return query;
         }
     }
 }

@@ -20,7 +20,7 @@ public class CarTest {
         Car requestCar = CarMethods.createRandomCar(4);
         Car responceCar = CarMethods.createCar(requestCar);
         Long sizeAfter = daoCar.getAllSize();
-        Car daoCarResult = (Car) daoCar.getByID(responceCar.getId());
+        Car daoCarResult = (Car) daoCar.getValueByFieldName("mark",requestCar.getMark());
         assertTrue(requestCar.equalsWithotId(responceCar), "Отправленные и полученные данные не совпадают");
         assertEquals(responceCar,daoCarResult,"Машины в ответе и в БД не совпадают");
         assertEquals(sizeAfter, sizeBefore + 1, "Количество машин не изменилось");

@@ -36,7 +36,8 @@ public class HouseTest {
         House requestHouse = createRandomHouse();
         requestHouse.setParkingPlaces(parkingPlaces);
         House responseHouse = HouseMethods.createHouse(requestHouse);
-        House daoHouseResult = (House) daoHouse.getValueByFieldName("price", requestHouse.getPrice());
+        House daoHouseResult = (House) daoHouse.getByID(responseHouse.getId()); // Да я возьму ид из апи, но потом все равно сравню уникальные данные типа price и сверю
+        // House daoHouseResult = (House) daoHouse.getValueByFieldName("price", requestHouse.getPrice()); Очень бы хотелось сделать так, но гибернейт коряво обрабатывает Float и BigDecimal, не смог победить(((
         List<ParkingPlace> parkingPlaceList = daoHouseResult.getParkingPlaces();
         Long sizeHouseAfter = daoHouse.getAllSize();
         Long sizeParkingPlaceAfter = daoParkingPlace.getAllSize();
