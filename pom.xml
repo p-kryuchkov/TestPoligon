@@ -11,6 +11,7 @@
     <modules>
         <module>TESTAssured</module>
         <module>httpcCient5</module>
+        <module>okHttp</module>
     </modules>
 
     <properties>

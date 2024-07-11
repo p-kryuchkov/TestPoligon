@@ -6,14 +6,21 @@ import dao.DAO;
 import dao.EngineTypeDAO;
 import entities.Car;
 import entities.EngineType;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Random;
 
-import static java.lang.Math.round;
-
 public class CarMethods extends ApiMethods {
+    private final OkHttpClient client;
+
     public CarMethods() {
+        this.client = new OkHttpClient();
     }
 
     public static Car parseJsonToCar(String response) {
@@ -31,12 +38,13 @@ public class CarMethods extends ApiMethods {
     }
 
     public static String parseCarToJson(Car requestCar) {
-        String request = "{\"engineType\": \"" + requestCar.getEngineType().getType_name() + "\", " +
-                "\"mark\": \"" + requestCar.getMark() + "\", " +
-                "\"model\": \"" + requestCar.getModel() + "\", " +
-                "\"price\": " + requestCar.getPrice() +
-                "}";
-        return request;
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("engineType", requestCar.getEngineType().getType_name());
+        jsonObject.addProperty("mark", requestCar.getMark());
+        jsonObject.addProperty("model", requestCar.getModel());
+        jsonObject.addProperty("price", requestCar.getPrice());
+
+        return jsonObject.toString();
     }
 
     /**
@@ -51,7 +59,7 @@ public class CarMethods extends ApiMethods {
         }
         String randomString = new String(charArray);
         DecimalFormat df = new DecimalFormat("#.##");
-        Float price = (float) (round(r.nextFloat() * 1000000) / 100.0);
+        Float price = (float) (Math.round(r.nextFloat() * 1000000) / 100.0);
         DAO engineTypeDao = new DAO<>(EngineType.class);
         long randomETypeId = r.nextInt(engineTypeDao.getAllSize().intValue() + 1);
         EngineType engineType = (EngineType) engineTypeDao.getByID(randomETypeId);
@@ -59,4 +67,3 @@ public class CarMethods extends ApiMethods {
         return randomCar;
     }
 }
-
