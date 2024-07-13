@@ -1,5 +1,6 @@
 package api;
 
+import com.google.gson.Gson;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
@@ -16,8 +17,11 @@ import java.io.IOException;
 import static api.Login.getToken;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import api.Specifications.*;
+
 public class ApiMethods<T> {
 
+    static Gson gson = new Gson();
 
     public ApiMethods() {
     }
@@ -38,17 +42,14 @@ public class ApiMethods<T> {
 
     public HttpGet getRequest(String endpoint) {
         HttpGet httpGet = new HttpGet(endpoint);
-        httpGet.addHeader("Content-Type", "application/json");
-        httpGet.addHeader("Authorization", "Bearer " + getToken());
+        Specifications.setRequestSpec(httpGet);
         System.out.println(httpGet);
         return httpGet;
     }
 
     public HttpPost postRequest(String endpoint, String request) {
         HttpPost httpPost = new HttpPost(endpoint);
-        httpPost.addHeader("Content-Type", "application/json");
-        httpPost.addHeader("Accept", "*/*");
-        httpPost.addHeader("Authorization", "Bearer " + getToken());
+        Specifications.setRequestSpec(httpPost);
         StringEntity entity = new StringEntity(request, ContentType.APPLICATION_JSON);
         httpPost.setEntity(entity);
         System.out.println(httpPost + request);

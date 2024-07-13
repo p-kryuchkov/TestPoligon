@@ -21,7 +21,6 @@ public class HouseMethods extends ApiMethods {
     }
 
     public static House parseJsonToHouse(String response) {
-        Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(response, JsonObject.class);
         int floorCount = jsonObject.get("floorCount").getAsInt();
         Float price = jsonObject.get("price").getAsFloat();
