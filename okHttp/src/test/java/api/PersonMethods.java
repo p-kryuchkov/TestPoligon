@@ -19,7 +19,6 @@ public class PersonMethods extends ApiMethods {
     }
 
     public static Person parseJsonToPerson(String response) {
-        Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(response, JsonObject.class);
         String firstName = jsonObject.get("firstName").getAsString();
         String secondName = jsonObject.get("secondName").getAsString();

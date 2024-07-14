@@ -24,7 +24,6 @@ public class CarMethods extends ApiMethods {
     }
 
     public static Car parseJsonToCar(String response) {
-        Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(response, JsonObject.class);
         String engineTypeString = jsonObject.get("engineType").getAsString();
         EngineType engineType = EngineTypeDAO.getByName(engineTypeString);

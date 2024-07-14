@@ -23,7 +23,6 @@ public class HouseMethods extends ApiMethods {
     }
 
     public static House parseJsonToHouse(String response) {
-        Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(response, JsonObject.class);
         int floorCount = jsonObject.get("floorCount").getAsInt();
         Float price = jsonObject.get("price").getAsFloat();
@@ -43,13 +42,6 @@ public class HouseMethods extends ApiMethods {
 
     public static String parseHouseToJson(House requestHouse) {
         return new Gson().toJson(requestHouse);
-//        Gson gson = new Gson();
-//        String jsonParkingPlaces = gson.toJson(requestHouse.getParkingPlaces());
-//        JsonObject jsonObject = new JsonObject();
-//        jsonObject.addProperty("floorCount", requestHouse.getFloorCount());
-//        jsonObject.addProperty("price", requestHouse.getPrice());
-//        jsonObject.add("parkingPlaces", JsonParser.parseString(jsonParkingPlaces));
-//        return jsonObject.toString();
     }
 
     public static House createRandomHouse() {

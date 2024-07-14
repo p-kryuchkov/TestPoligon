@@ -1,10 +1,13 @@
 package api;
 
 
+import okhttp3.Request;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import static api.Login.getToken;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class Specifications {
@@ -17,7 +20,12 @@ public class Specifications {
         }
         return properties;
     }
-
+    public static Request.Builder setRequestSpec(Request.Builder builder){
+        return builder
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Accept", "*/*")
+        .addHeader("Authorization", "Bearer " + getToken());
+    }
     static Properties properties = getProperties();
     public static final String baseUrl = properties.getProperty("baseURL");
     public static final String login = "/login";

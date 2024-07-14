@@ -1,5 +1,6 @@
 package api;
 
+import com.google.gson.Gson;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -8,9 +9,10 @@ import okhttp3.Response;
 import java.io.IOException;
 
 import static api.Login.getToken;
+import static api.Specifications.setRequestSpec;
 
 public class ApiMethods {
-
+    static Gson gson = new Gson();
     private final OkHttpClient client;
 
     public ApiMethods() {
@@ -24,21 +26,14 @@ public class ApiMethods {
     }
 
     public Request getRequest(String endpoint) {
-        return new Request.Builder()
-                .url(endpoint)
-                .addHeader("Content-Type", "application/json")
-                .addHeader("Authorization", "Bearer " + getToken())
+        return setRequestSpec( new Request.Builder()
+                .url(endpoint))
                 .build();
     }
 
     public Request postRequest(String endpoint, String request) {
         RequestBody body = RequestBody.create(request, okhttp3.MediaType.parse("application/json"));
-        return new Request.Builder()
-                .url(endpoint)
-                .post(body)
-                .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "*/*")
-                .addHeader("Authorization", "Bearer " + getToken())
+        return setRequestSpec(new Request.Builder().url(endpoint).post(body))
                 .build();
     }
 }
